@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Cristão para Pais</title>
+  <style>
+    body {
+      background-color: #021026;
+      color: #f5f5f5;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    .option-button {
+      display: block;
+      margin: 10px auto;
+      padding: 12px 20px;
+      background-color: #1e3a8a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .option-button:hover {
+      background-color: #3b82f6;
+    }
+    .progress-bar {
+      height: 10px;
+      background: #444;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+    .progress {
+      height: 100%;
+      background: #3b82f6;
+      width: 0%;
+      border-radius: 5px;
+      transition: width 0.3s;
+    }
+    .loading {
+      font-size: 18px;
+      margin-top: 40px;
+    }
+    .offer {
+      display: none;
+      margin-top: 30px;
+    }
+    .offer h2 {
+      color: #10b981;
+    }
+    .btn-final {
+      background-color: #10b981;
+      color: #fff;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="progress-bar">
+      <div id="progress" class="progress"></div>
+    </div>
+    <div id="quiz"></div>
+    <div id="loading" class="loading"></div>
+    <div id="offer" class="offer">
+      <h2>🎉 Parabéns!</h2>
+      <p>Você demonstrou que está buscando o melhor para seus filhos na caminhada com Deus.</p>
+      <h3>📖 Conheça o eBook: "Crescendo com a Palavra - 40 Devocionais para Pais e Filhos"</h3>
+      <p>Um guia simples e poderoso para ensinar valores cristãos e fortalecer o relacionamento familiar em Cristo.</p>
+      <button class="btn-final">Quero Receber o eBook Agora!</button>
+    </div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "📌 Com que frequência seu filho(a) demonstra interesse em aprender sobre Deus?",
+        options: [
+          "Todos os dias",
+          "Algumas vezes por semana",
+          "Raramente",
+          "Ainda não demonstrou interesse"
+        ]
+      },
+      {
+        question: "📖 Você costuma ler a Bíblia com seu filho(a)?",
+        options: [
+          "Sim, diariamente",
+          "Sim, de vez em quando",
+          "Não, mas gostaria de começar",
+          "Ainda não tive oportunidade"
+        ]
+      },
+      {
+        question: "🙏 Qual dessas atitudes você mais deseja ver em seu filho(a)?",
+        options: [
+          "Fé firme e constante",
+          "Obediência e respeito",
+          "Desejo de servir na igreja",
+          "Leitura da Bíblia com prazer"
+        ]
+      },
+      {
+        question: "💬 Seu filho(a) costuma fazer perguntas sobre Deus, Jesus ou a Bíblia?",
+        options: [
+          "Sim, sempre",
+          "Às vezes",
+          "Raramente",
+          "Nunca"
+        ]
+      },
+      {
+        question: "🎯 Qual é seu maior objetivo como pai/mãe cristão(ã)?",
+        options: [
+          "Ver meus filhos firmes na fé",
+          "Ensinar valores cristãos todos os dias",
+          "Ter momentos devocionais em família",
+          "Proteger meus filhos espiritualmente"
+        ]
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    const progressBar = document.getElementById("progress");
+    const loading = document.getElementById("loading");
+    const offer = document.getElementById("offer");
+
+    let currentQuestion = 0;
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      quizContainer.innerHTML = `<div class="question"><h2>${q.question}</h2>
+        ${q.options
+          .map(
+            (opt) =>
+              `<button class="option-button" onclick="nextQuestion()">${opt}</button>`
+          )
+          .join("")}
+        </div>`;
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const percent = ((currentQuestion) / quizData.length) * 100;
+      progressBar.style.width = `${percent}%`;
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+      } else {
+        showLoading();
+      }
+    }
+
+    function showLoading() {
+      quizContainer.innerHTML = "";
+      progressBar.style.width = "100%";
+      loading.innerHTML = "🔍 Analisando suas respostas... Aguarde um momento.";
+      setTimeout(() => {
+        loading.innerHTML = "";
+        offer.style.display = "block";
+      }, 5000);
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
